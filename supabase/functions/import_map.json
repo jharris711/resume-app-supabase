@@ -1,5 +1,8 @@
 {
   "imports": {
-    "openai": "https://deno.land/x/openai@v4.28.0/mod.ts"
+    "openai": "https://deno.land/x/openai@v4.28.0/mod.ts",
+    "pdfjsDist": "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs",
+    "pdfjsWorker": "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs",
+    "supabase": "https://esm.sh/@supabase/supabase-js@2.7.1"
   }
 }
