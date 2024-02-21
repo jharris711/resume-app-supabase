@@ -1,6 +1,4 @@
-import { createClient } from "supabase";
 import OpenAI from "openai";
-import { FileLike } from "https://deno.land/x/openai@v4.28.0/uploads.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -13,44 +11,20 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const supabaseClient = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      {
-        global: {
-          headers: { Authorization: req.headers.get("Authorization")! },
-        },
-      },
-    );
-
-    const { file_name } = await req.json();
-
-    // Download resume from Supabase storage
-    const { data: fileBlob, error } = await supabaseClient
-      .storage
-      .from("resumes")
-      .download(file_name);
-
-    if (error) throw error;
-
-    // Create a FileLike object from the Blob
-    const fileLike: FileLike = {
-      ...fileBlob, // Spread the Blob properties to cover the BlobLike part
-      name: file_name, // Use the file name from your context
-      lastModified: Date.now(), // Use the current timestamp or fetch this from storage metadata if available
-    };
+    const formData = await req.formData();
+    const file = formData.get("file");
 
     const openai = new OpenAI({
       apiKey: Deno.env.get("OPENAI_API_KEY"),
     });
 
-    const file = await openai.files.create({
-      file: fileLike,
+    const stored_file = await openai.files.create({
+      file: file as File,
       purpose: "assistants",
     });
 
     // Return file from openai
-    return new Response(JSON.stringify({ file }), {
+    return new Response(JSON.stringify({ stored_file }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
