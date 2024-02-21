@@ -18,13 +18,13 @@ Deno.serve(async (req) => {
       apiKey: Deno.env.get("OPENAI_API_KEY"),
     });
 
-    const stored_file = await openai.files.create({
+    const fileObject = await openai.files.create({
       file: file as File,
       purpose: "assistants",
     });
 
     // Return file from openai
-    return new Response(JSON.stringify({ stored_file }), {
+    return new Response(JSON.stringify({ fileObject }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
