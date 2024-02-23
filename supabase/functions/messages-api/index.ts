@@ -4,7 +4,11 @@ import { getAllMessages } from "./get-all-messages.ts";
 import { getMessage } from "./get-message.ts";
 import { updateMessage } from "./update-message.ts";
 
-const PATHNAME = "/messages-api/:thread_id/:id";
+const pathnames = {
+  withID: "/messages-api/:thread_id/:id",
+  withoutID: "/messages-api/:thread_id",
+};
+
 const methods = {
   GET: "GET",
   POST: "POST",
@@ -21,14 +25,24 @@ async function messagesApi(req: Request) {
   }
 
   try {
-    const messagesPattern = new URLPattern({
-      pathname: PATHNAME,
+    const patternWithId = new URLPattern({
+      pathname: pathnames.withID,
     });
-    const matchingPath = messagesPattern.exec(url);
-    const id = matchingPath ? matchingPath.pathname.groups.id : null;
-    const thread_id = matchingPath
-      ? matchingPath.pathname.groups.thread_id
-      : null;
+    const patternWithoutId = new URLPattern({
+      pathname: pathnames.withoutID,
+    });
+
+    const matchingPathWithId = patternWithId.exec(url);
+    const matchingPathWithoutId = patternWithoutId.exec(url);
+
+    let thread_id, id;
+    if (matchingPathWithId) {
+      thread_id = matchingPathWithId.pathname.groups.thread_id;
+      id = matchingPathWithId.pathname.groups.id;
+    } else if (matchingPathWithoutId) {
+      thread_id = matchingPathWithoutId.pathname.groups.thread_id;
+      id = null; // id is optional, so it's okay if it's not there
+    }
 
     let message = null;
     if (method === methods.POST || method === methods.PUT) {
