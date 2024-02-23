@@ -5,37 +5,46 @@ import { deleteAssistant } from "./delete-assistant.ts";
 import { createAssistant } from "./create-assistant.ts";
 import { getAllAssistants } from "./get-all-assistants.ts";
 
+const PATHNAME = "/assistants-api/:id";
+const methods = {
+  GET: "GET",
+  POST: "POST",
+  PUT: "PUT",
+  DELETE: "DELETE",
+  OPTIONS: "OPTIONS",
+};
+
 async function assistantsApi(req: Request) {
   const { url, method } = req;
 
-  if (method === "OPTIONS") {
+  if (method === methods.OPTIONS) {
     return new Response("ok", { headers: corsHeaders });
   }
 
   try {
     const assistantPattern = new URLPattern({
-      pathname: "/assistants-api/:id",
+      pathname: PATHNAME,
     });
     const matchingPath = assistantPattern.exec(url);
     const id = matchingPath ? matchingPath.pathname.groups.id : null;
 
     let assistant = null;
-    if (method === "POST" || method === "PUT") {
+    if (method === methods.POST || method === methods.PUT) {
       const body = await req.json();
       assistant = body.assistant;
     }
 
     // call relevant method based on method and id
     switch (true) {
-      case id && method === "GET":
+      case id && method === methods.GET:
         return getAssistant(id as string);
-      case id && method === "PUT":
+      case id && method === methods.PUT:
         return updateAssistant(assistant);
-      case id && method === "DELETE":
+      case id && method === methods.DELETE:
         return deleteAssistant(id as string);
-      case method === "POST":
+      case method === methods.POST:
         return createAssistant(assistant);
-      case method === "GET":
+      case method === methods.GET:
         return getAllAssistants();
       default:
         return getAllAssistants();
