@@ -6,15 +6,16 @@ const openai = new OpenAI({
   apiKey: Deno.env.get("OPENAI_API_KEY"),
 });
 
-export async function createThread(thread: OpenAI.Beta.ThreadCreateParams) {
-  const { messages, metadata } = thread;
+interface Props {
+  thread?: OpenAI.Beta.ThreadCreateParams;
+}
 
-  const createdThread = await openai.beta.threads.create({
-    messages,
-    metadata,
-  });
+export async function createThread({ thread }: Props) {
+  const createdThread = await openai.beta.threads.create(
+    thread,
+  );
 
-  return new Response(JSON.stringify({ assistant: createdThread }), {
+  return new Response(JSON.stringify({ thread: createdThread }), {
     headers: { ...corsHeaders, "Content-Type": "application/json" },
     status: 200,
   });

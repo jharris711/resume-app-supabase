@@ -27,10 +27,12 @@ async function threadsApi(req: Request) {
     const matchingPath = threadPattern.exec(url);
     const id = matchingPath ? matchingPath.pathname.groups.id : null;
 
-    let thread = null;
+    let thread = {};
     if (method === methods.POST || method === methods.PUT) {
       const body = await req.json();
-      thread = body.thread;
+      if (body.thread) {
+        thread = body.thread;
+      }
     }
 
     // call relevant method based on method and id
