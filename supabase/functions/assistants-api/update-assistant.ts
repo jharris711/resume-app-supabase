@@ -6,9 +6,13 @@ const openai = new OpenAI({
   apiKey: Deno.env.get("OPENAI_API_KEY"),
 });
 
+interface Props {
+  id: string;
+  assistant: OpenAI.Beta.AssistantUpdateParams;
+}
+
 export async function updateAssistant(
-  id: string,
-  assistant: OpenAI.Beta.AssistantUpdateParams,
+  { id, assistant }: Props,
 ) {
   const { instructions, name, tools, model, file_ids } = assistant;
 

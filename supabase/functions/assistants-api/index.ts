@@ -39,7 +39,10 @@ async function assistantsApi(req: Request) {
       case id && method === methods.GET:
         return getAssistant(id as string);
       case id && method === methods.PUT:
-        return updateAssistant(id as string, assistant);
+        return updateAssistant({
+          id: id as string,
+          assistant,
+        });
       case id && method === methods.DELETE:
         return deleteAssistant(id as string);
       case method === methods.POST:
