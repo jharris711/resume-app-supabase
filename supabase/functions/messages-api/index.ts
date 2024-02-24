@@ -1,4 +1,5 @@
-import { corsHeaders } from "./cors-headers.ts";
+import { corsHeaders } from "../_shared/cors-headers.ts";
+
 import { createMessage } from "./create-message.ts";
 import { getAllMessages } from "./get-all-messages.ts";
 import { getMessage } from "./get-message.ts";

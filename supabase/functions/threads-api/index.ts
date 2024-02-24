@@ -1,4 +1,5 @@
-import { corsHeaders } from "./cors-headers.ts";
+import { corsHeaders } from "../_shared/cors-headers.ts";
+
 import { createThread } from "./create-thread.ts";
 import { deleteThread } from "./delete-thread.ts";
 import { getThread } from "./get-thread.ts";

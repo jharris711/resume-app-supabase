@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-import { corsHeaders } from "./cors-headers.ts";
+import { corsHeaders } from "../_shared/cors-headers.ts";
 
 const openai = new OpenAI({
   apiKey: Deno.env.get("OPENAI_API_KEY"),

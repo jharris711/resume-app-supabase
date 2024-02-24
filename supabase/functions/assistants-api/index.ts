@@ -1,4 +1,5 @@
-import { corsHeaders } from "./cors-headers.ts";
+import { corsHeaders } from "../_shared/cors-headers.ts";
+
 import { getAssistant } from "./get-assistant.ts";
 import { updateAssistant } from "./update-assistant.ts";
 import { deleteAssistant } from "./delete-assistant.ts";

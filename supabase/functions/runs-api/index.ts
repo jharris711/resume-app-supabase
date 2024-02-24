@@ -1,4 +1,5 @@
-import { corsHeaders } from "./cors-headers.ts";
+import { corsHeaders } from "../_shared/cors-headers.ts";
+
 import { cancelRun } from "./cancel-run.ts";
 import { createRun } from "./create-run.ts";
 import { getRun } from "./get-run.ts";
