@@ -6,11 +6,13 @@ const openai = new OpenAI({
   apiKey: Deno.env.get("OPENAI_API_KEY"),
 });
 
-export async function updateMessage(
-  thread_id: OpenAI.Beta.Thread["id"],
-  id: string,
-  message: OpenAI.Beta.Threads.MessageUpdateParams,
-) {
+interface Props {
+  thread_id: OpenAI.Beta.Thread["id"];
+  id: string;
+  message: OpenAI.Beta.Threads.MessageUpdateParams;
+}
+
+export async function updateMessage({ thread_id, id, message }: Props) {
   const updatedMessage = await openai.beta.threads.messages.update(
     thread_id,
     id,

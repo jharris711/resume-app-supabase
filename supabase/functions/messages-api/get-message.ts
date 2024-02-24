@@ -6,10 +6,15 @@ const openai = new OpenAI({
   apiKey: Deno.env.get("OPENAI_API_KEY"),
 });
 
-export async function getMessage(
-  thread_id: OpenAI.Beta.Thread["id"],
-  id: string,
-) {
+interface Props {
+  thread_id: OpenAI.Beta.Thread["id"];
+  id: string;
+}
+
+export async function getMessage({
+  thread_id,
+  id,
+}: Props) {
   const message = await openai.beta.threads.messages.retrieve(thread_id, id);
 
   if (!message) throw new Error("Message not found");

@@ -53,9 +53,16 @@ async function messagesApi(req: Request) {
     // call relevant method based on method and id
     switch (true) {
       case id && method === methods.GET:
-        return getMessage(thread_id as string, id as string);
+        return getMessage({
+          thread_id: thread_id as string,
+          id: id as string,
+        });
       case id && method === methods.PUT:
-        return updateMessage(thread_id as string, id as string, message);
+        return updateMessage({
+          thread_id: thread_id as string,
+          id: id as string,
+          message,
+        });
       case id && method === methods.DELETE:
         return new Response(
           "No delete method for messages. Try updating the message to be blank or delete the thread.",
@@ -65,7 +72,10 @@ async function messagesApi(req: Request) {
           },
         );
       case method === methods.POST:
-        return createMessage(thread_id as string, message);
+        return createMessage({
+          thread_id: thread_id as string,
+          message,
+        });
       case method === methods.GET:
         return getAllMessages(thread_id as string);
       default:
