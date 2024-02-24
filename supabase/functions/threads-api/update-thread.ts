@@ -6,17 +6,18 @@ const openai = new OpenAI({
   apiKey: Deno.env.get("OPENAI_API_KEY"),
 });
 
-export async function updateThread(
-  id: string,
-  thread: OpenAI.Beta.ThreadUpdateParams,
-) {
-  const { metadata } = thread;
+interface Props {
+  id: string;
+  thread: OpenAI.Beta.ThreadUpdateParams;
+}
 
+export async function updateThread({
+  id,
+  thread,
+}: Props) {
   const updatedThread = await openai.beta.threads.update(
     id,
-    {
-      metadata,
-    },
+    thread,
   );
 
   if (!updatedThread) throw new Error("Thread not found");

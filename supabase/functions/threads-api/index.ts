@@ -40,7 +40,10 @@ async function threadsApi(req: Request) {
       case id && method === methods.GET:
         return getThread(id as string);
       case id && method === methods.PUT:
-        return updateThread(id as string, thread);
+        return updateThread({
+          id: id as string,
+          thread,
+        });
       case id && method === methods.DELETE:
         return deleteThread(id as string);
       case method === methods.POST:
